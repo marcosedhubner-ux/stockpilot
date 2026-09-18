@@ -18,7 +18,7 @@ export default function HomePage() {
   }, [data, isLoading, isError, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm text-slate-500">
+    <div className="flex min-h-screen items-center justify-center bg-bg text-sm text-text-secondary">
       Loading...
     </div>
   );

@@ -20,12 +20,12 @@ function ProductsView() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900">Products</h1>
+        <h1 className="text-2xl font-bold text-text">Products</h1>
         {isAdmin && <Button onClick={() => setIsCreating(true)}>New product</Button>}
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-slate-400">Loading products...</p>
+        <p className="text-sm text-text-secondary">Loading products...</p>
       ) : (
         <ProductTable products={products ?? []} onSelect={setSelectedProduct} />
       )}

@@ -29,14 +29,14 @@ export function AuthGuard({
 
   if (isLoading || !data?.staff || !allowedRoles.includes(data.staff.role)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm text-slate-500">
+      <div className="flex min-h-screen items-center justify-center bg-bg text-sm text-text-secondary">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-bg">
       <AppHeader />
       <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
     </div>

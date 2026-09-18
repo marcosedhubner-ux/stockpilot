@@ -56,26 +56,26 @@ export function NewPurchaseOrderForm({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-20 flex justify-end bg-slate-900/30" onClick={onClose}>
+    <div className="fixed inset-0 z-20 flex justify-end bg-black/50" onClick={onClose}>
       <div
-        className="h-full w-full max-w-lg overflow-y-auto bg-white p-6 shadow-xl"
+        className="h-full w-full max-w-lg overflow-y-auto border-l border-border bg-surface p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900">New purchase order</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+          <h2 className="text-xl font-bold text-text">New purchase order</h2>
+          <button onClick={onClose} className="text-text-secondary hover:text-text">
             Close
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700">Supplier</label>
+            <label className="block text-sm font-medium text-text-secondary">Supplier</label>
             <select
               required
               value={supplierId}
               onChange={(event) => setSupplierId(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+              className="field mt-1 w-full px-3 py-2 text-sm"
             >
               <option value="" disabled>
                 Select supplier
@@ -89,16 +89,16 @@ export function NewPurchaseOrderForm({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-slate-700">Line items</label>
+            <label className="block text-sm font-medium text-text-secondary">Line items</label>
             {items.map((item, index) => (
-              <div key={index} className="flex items-end gap-2 rounded-lg border border-slate-200 p-3">
+              <div key={index} className="flex items-end gap-2 rounded-md border border-border p-3">
                 <div className="flex-1">
-                  <label className="block text-xs text-slate-500">Product</label>
+                  <label className="block text-xs text-text-secondary">Product</label>
                   <select
                     required
                     value={item.productId}
                     onChange={(event) => updateItem(index, { productId: event.target.value })}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                    className="field mt-1 w-full px-2 py-1.5 text-sm"
                   >
                     <option value="" disabled>
                       Select
@@ -111,18 +111,18 @@ export function NewPurchaseOrderForm({ onClose }: { onClose: () => void }) {
                   </select>
                 </div>
                 <div className="w-20">
-                  <label className="block text-xs text-slate-500">Qty</label>
+                  <label className="block text-xs text-text-secondary">Qty</label>
                   <input
                     type="number"
                     min={1}
                     required
                     value={item.quantityOrdered}
                     onChange={(event) => updateItem(index, { quantityOrdered: Number(event.target.value) })}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                    className="field mt-1 w-full px-2 py-1.5 text-sm font-mono"
                   />
                 </div>
                 <div className="w-24">
-                  <label className="block text-xs text-slate-500">Unit cost</label>
+                  <label className="block text-xs text-text-secondary">Unit cost</label>
                   <input
                     type="number"
                     min={0}
@@ -130,13 +130,13 @@ export function NewPurchaseOrderForm({ onClose }: { onClose: () => void }) {
                     required
                     value={item.unitCost}
                     onChange={(event) => updateItem(index, { unitCost: Number(event.target.value) })}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                    className="field mt-1 w-full px-2 py-1.5 text-sm font-mono"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={() => removeItem(index)}
-                  className="mb-1.5 text-xs font-medium text-rose-600 hover:underline"
+                  className="mb-1.5 text-xs font-medium text-danger hover:underline"
                 >
                   Remove
                 </button>
@@ -145,14 +145,16 @@ export function NewPurchaseOrderForm({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={addItem}
-              className="text-sm font-medium text-amber-600 hover:underline"
+              className="text-sm font-medium text-accent hover:underline"
             >
               + Add line item
             </button>
           </div>
 
           {errorMessage && (
-            <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{errorMessage}</p>
+            <p className="rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+              {errorMessage}
+            </p>
           )}
 
           <Button type="submit" className="w-full" disabled={createPurchaseOrder.isPending}>

@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "StockPilot — Inventory & Procurement",
-  description: "Ledger-based inventory tracking with reorder alerts and purchase orders.",
+  title: "Onhand — Inventory & Procurement",
+  description:
+    "Inventory that keeps receipts: every count is rebuilt from a movement ledger, not a number you can just overwrite.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

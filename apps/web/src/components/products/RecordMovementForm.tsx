@@ -39,11 +39,11 @@ export function RecordMovementForm({ productId, isAdmin }: { productId: string; 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="block text-sm font-medium text-slate-700">Movement type</label>
+        <label className="block text-sm font-medium text-text-secondary">Movement type</label>
         <select
           value={type}
           onChange={(event) => setType(event.target.value as MovementType)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm"
         >
           <option value="RECEIVED">Received (stock in)</option>
           <option value="SOLD">Sold (stock out)</option>
@@ -53,7 +53,7 @@ export function RecordMovementForm({ productId, isAdmin }: { productId: string; 
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-text-secondary">
           {type === "ADJUSTED" ? "Delta (use a negative number to reduce)" : "Quantity"}
         </label>
         <input
@@ -61,21 +61,23 @@ export function RecordMovementForm({ productId, isAdmin }: { productId: string; 
           required
           value={quantity}
           onChange={(event) => setQuantity(Number(event.target.value))}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm font-mono"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700">Note (optional)</label>
+        <label className="block text-sm font-medium text-text-secondary">Note (optional)</label>
         <input
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm"
         />
       </div>
 
       {errorMessage && (
-        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{errorMessage}</p>
+        <p className="rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+          {errorMessage}
+        </p>
       )}
 
       <Button type="submit" className="w-full" disabled={recordMovement.isPending}>

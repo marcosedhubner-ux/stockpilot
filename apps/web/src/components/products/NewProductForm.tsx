@@ -45,52 +45,52 @@ export function NewProductForm({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-20 flex justify-end bg-slate-900/30" onClick={onClose}>
+    <div className="fixed inset-0 z-20 flex justify-end bg-black/50" onClick={onClose}>
       <div
-        className="h-full w-full max-w-md overflow-y-auto bg-white p-6 shadow-xl"
+        className="h-full w-full max-w-md overflow-y-auto border-l border-border bg-surface p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900">New product</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+          <h2 className="text-xl font-bold text-text">New product</h2>
+          <button onClick={onClose} className="text-text-secondary hover:text-text">
             Close
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700">SKU</label>
+            <label className="block text-sm font-medium text-text-secondary">SKU</label>
             <input
               required
               value={sku}
               onChange={(event) => setSku(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+              className="field mt-1 w-full px-3 py-2 text-sm font-mono"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">Name</label>
+            <label className="block text-sm font-medium text-text-secondary">Name</label>
             <input
               required
               value={name}
               onChange={(event) => setName(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+              className="field mt-1 w-full px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">Category</label>
+            <label className="block text-sm font-medium text-text-secondary">Category</label>
             <input
               required
               value={category}
               onChange={(event) => setCategory(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+              className="field mt-1 w-full px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700">Supplier</label>
+            <label className="block text-sm font-medium text-text-secondary">Supplier</label>
             <select
               value={supplierId}
               onChange={(event) => setSupplierId(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+              className="field mt-1 w-full px-3 py-2 text-sm"
             >
               <option value="">No supplier</option>
               {suppliers?.map((supplier) => (
@@ -102,7 +102,7 @@ export function NewProductForm({ onClose }: { onClose: () => void }) {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700">Unit cost</label>
+              <label className="block text-sm font-medium text-text-secondary">Unit cost</label>
               <input
                 type="number"
                 required
@@ -110,46 +110,48 @@ export function NewProductForm({ onClose }: { onClose: () => void }) {
                 step="0.01"
                 value={unitCost}
                 onChange={(event) => setUnitCost(Number(event.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                className="field mt-1 w-full px-3 py-2 text-sm font-mono"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700">Initial qty</label>
+              <label className="block text-sm font-medium text-text-secondary">Initial qty</label>
               <input
                 type="number"
                 required
                 min={0}
                 value={initialQuantity}
                 onChange={(event) => setInitialQuantity(Number(event.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                className="field mt-1 w-full px-3 py-2 text-sm font-mono"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700">Reorder point</label>
+              <label className="block text-sm font-medium text-text-secondary">Reorder point</label>
               <input
                 type="number"
                 required
                 min={0}
                 value={reorderPoint}
                 onChange={(event) => setReorderPoint(Number(event.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                className="field mt-1 w-full px-3 py-2 text-sm font-mono"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700">Reorder qty</label>
+              <label className="block text-sm font-medium text-text-secondary">Reorder qty</label>
               <input
                 type="number"
                 required
                 min={1}
                 value={reorderQuantity}
                 onChange={(event) => setReorderQuantity(Number(event.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                className="field mt-1 w-full px-3 py-2 text-sm font-mono"
               />
             </div>
           </div>
 
           {errorMessage && (
-            <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{errorMessage}</p>
+            <p className="rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+              {errorMessage}
+            </p>
           )}
 
           <Button type="submit" className="w-full" disabled={createProduct.isPending}>

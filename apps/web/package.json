@@ -1,7 +1,8 @@
 {
-  "name": "@stockpilot/web",
+  "name": "@onhand/web",
   "version": "0.1.0",
   "private": true,
+  "description": "Onhand — inventory that keeps receipts: every count is rebuilt from a movement ledger, not a number you can just overwrite.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

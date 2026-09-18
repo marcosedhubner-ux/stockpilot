@@ -27,25 +27,25 @@ function PurchaseOrdersView() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900">Purchase orders</h1>
+        <h1 className="text-2xl font-bold text-text">Purchase orders</h1>
         {isAdmin && <Button onClick={() => setIsCreating(true)}>New purchase order</Button>}
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-slate-400">Loading...</p>
+        <p className="text-sm text-text-secondary">Loading...</p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {orders?.map((order) => (
             <button
               key={order.id}
               onClick={() => setSelectedOrder(order)}
-              className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 text-left shadow-sm hover:shadow-md"
+              className="flex flex-col gap-2 rounded-md border border-border bg-surface p-4 text-left hover:border-accent/50"
             >
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-900">{order.supplier.name}</span>
+                <span className="font-semibold text-text">{order.supplier.name}</span>
                 <Badge tone={STATUS_TONE[order.status]}>{order.status}</Badge>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-text-secondary">
                 {order.items.length} item{order.items.length === 1 ? "" : "s"} &middot;{" "}
                 {new Date(order.createdAt).toLocaleDateString()}
               </p>

@@ -9,10 +9,10 @@ export function ProductTable({
   onSelect: (product: Product) => void;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-      <table className="min-w-full divide-y divide-slate-100 text-sm">
+    <div className="overflow-x-auto rounded-md border border-border bg-surface">
+      <table className="min-w-full divide-y divide-border text-sm">
         <thead>
-          <tr className="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <tr className="text-left text-xs font-semibold uppercase tracking-wide text-text-secondary">
             <th className="px-4 py-3">SKU</th>
             <th className="px-4 py-3">Name</th>
             <th className="px-4 py-3">Category</th>
@@ -22,25 +22,27 @@ export function ProductTable({
             <th className="px-4 py-3" />
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100">
+        <tbody className="divide-y divide-border">
           {products.map((product) => (
             <tr
               key={product.id}
               onClick={() => onSelect(product)}
-              className="cursor-pointer hover:bg-slate-50"
+              className="cursor-pointer hover:bg-white/[0.03]"
             >
-              <td className="px-4 py-3 font-mono text-xs text-slate-500">{product.sku}</td>
-              <td className="px-4 py-3 font-medium text-slate-800">{product.name}</td>
-              <td className="px-4 py-3 text-slate-500">{product.category}</td>
+              <td className="px-4 py-3 font-mono text-xs text-text-secondary">{product.sku}</td>
+              <td className="px-4 py-3 font-medium text-text">{product.name}</td>
+              <td className="px-4 py-3 text-text-secondary">{product.category}</td>
               <td className="px-4 py-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-slate-900">{product.quantityOnHand}</span>
+                  <span className="font-mono font-semibold text-text">{product.quantityOnHand}</span>
                   {product.isBelowReorderPoint && <Badge tone="danger">Low stock</Badge>}
                 </div>
               </td>
-              <td className="px-4 py-3 text-slate-600">${Number(product.unitCost).toFixed(2)}</td>
-              <td className="px-4 py-3 text-slate-500">{product.supplier?.name ?? "—"}</td>
-              <td className="px-4 py-3 text-right text-xs font-medium text-amber-600">Manage</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">
+                ${Number(product.unitCost).toFixed(2)}
+              </td>
+              <td className="px-4 py-3 text-text-secondary">{product.supplier?.name ?? "—"}</td>
+              <td className="px-4 py-3 text-right text-xs font-medium text-accent">Manage</td>
             </tr>
           ))}
         </tbody>

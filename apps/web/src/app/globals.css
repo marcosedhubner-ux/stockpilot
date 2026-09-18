@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
+/*
+ * Onhand — industrial warehouse / barcode-scanner palette.
+ * Every stock count here is rebuilt from a movement ledger, so the UI
+ * leans into a dark, high-contrast "scanner" mood instead of a soft
+ * generic SaaS look.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0e1216;
+  --surface: #161b20;
+  --border-color: #232931;
+
+  --accent: #3aa0ff;
+  --accent-hover: #5cb0ff;
+  --accent-soft: rgba(58, 160, 255, 0.12);
+
+  --text: #e7edf2;
+  --text-secondary: #8b96a0;
+
+  --success: #4fae7e;
+  --success-soft: rgba(79, 174, 126, 0.12);
+  --warning: #cf9d4f;
+  --warning-soft: rgba(207, 157, 79, 0.14);
+  --danger: #cc6b5e;
+  --danger-soft: rgba(204, 107, 94, 0.12);
+  --info: #5b9bd1;
+  --info-soft: rgba(91, 155, 209, 0.12);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border-color);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Shared form field styling — one hairline-bordered, dark input style
+   used across every form instead of restyling each input individually. */
+.field {
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field::placeholder {
+  color: var(--text-secondary);
+}
+
+.field:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* Signature barcode-stripe motif — a few vertical bars of varying width,
+   CSS-only. Used once as a brand mark (login screen), not repeated
+   across every surface. */
+.barcode-stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(58, 160, 255, 0.5) 0px,
+    rgba(58, 160, 255, 0.5) 2px,
+    transparent 2px,
+    transparent 6px,
+    rgba(58, 160, 255, 0.5) 6px,
+    rgba(58, 160, 255, 0.5) 9px,
+    transparent 9px,
+    transparent 18px,
+    rgba(58, 160, 255, 0.5) 18px,
+    rgba(58, 160, 255, 0.5) 21px,
+    transparent 21px,
+    transparent 24px,
+    rgba(58, 160, 255, 0.5) 24px,
+    rgba(58, 160, 255, 0.5) 27px,
+    transparent 27px,
+    transparent 40px
+  );
+}
+
+/* Faint clipboard-paper ruling for the login screen background. */
+.ledger-grid {
+  background-image: linear-gradient(rgba(139, 150, 160, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 150, 160, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
 }

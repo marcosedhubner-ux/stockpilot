@@ -34,35 +34,37 @@ export function NewSupplierForm() {
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       <div>
-        <label className="block text-sm font-medium text-slate-700">Name</label>
+        <label className="block text-sm font-medium text-text-secondary">Name</label>
         <input
           required
           value={name}
           onChange={(event) => setName(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Email</label>
+        <label className="block text-sm font-medium text-text-secondary">Email</label>
         <input
           type="email"
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Phone (optional)</label>
+        <label className="block text-sm font-medium text-text-secondary">Phone (optional)</label>
         <input
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+          className="field mt-1 w-full px-3 py-2 text-sm"
         />
       </div>
 
       {errorMessage && (
-        <p className="sm:col-span-3 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{errorMessage}</p>
+        <p className="sm:col-span-3 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+          {errorMessage}
+        </p>
       )}
 
       <div className="sm:col-span-3">

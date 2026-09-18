@@ -22,10 +22,18 @@ export function AppHeader() {
   const visibleItems = NAV_ITEMS.filter((item) => !role || item.roles.includes(role));
 
   return (
-    <header className="border-b border-slate-200 bg-white">
+    <header className="border-b border-border bg-surface">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-8">
-          <span className="text-lg font-bold tracking-tight text-slate-900">StockPilot</span>
+          <span className="flex items-center gap-2 text-lg font-bold tracking-tight text-text">
+            <span aria-hidden className="flex h-4 items-end gap-[2px]">
+              <span className="h-full w-[2px] bg-accent" />
+              <span className="h-2/3 w-[1px] bg-accent/60" />
+              <span className="h-full w-[3px] bg-accent" />
+              <span className="h-1/2 w-[1px] bg-accent/50" />
+            </span>
+            Onhand
+          </span>
           <nav className="flex gap-1">
             {visibleItems.map((item) => (
               <Link
@@ -34,8 +42,8 @@ export function AppHeader() {
                 className={clsx(
                   "rounded-md px-3 py-1.5 text-sm font-medium",
                   pathname === item.href
-                    ? "bg-amber-600 text-white"
-                    : "text-slate-600 hover:bg-slate-100"
+                    ? "bg-accent text-[#0e1216]"
+                    : "text-text-secondary hover:bg-white/5 hover:text-text"
                 )}
               >
                 {item.label}
@@ -46,12 +54,12 @@ export function AppHeader() {
         {data?.staff && (
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm font-medium text-slate-900">{data.staff.fullName}</p>
-              <p className="text-xs text-slate-500">{data.staff.role}</p>
+              <p className="text-sm font-medium text-text">{data.staff.fullName}</p>
+              <p className="text-xs text-text-secondary">{data.staff.role}</p>
             </div>
             <button
               onClick={() => logout.mutate(undefined, { onSuccess: () => router.push("/login") })}
-              className="text-sm font-medium text-slate-500 hover:text-slate-900"
+              className="text-sm font-medium text-text-secondary hover:text-text"
             >
               Sign out
             </button>

@@ -41,17 +41,17 @@ export function PurchaseOrderDetailPanel({
   }
 
   return (
-    <div className="fixed inset-0 z-20 flex justify-end bg-slate-900/30" onClick={onClose}>
+    <div className="fixed inset-0 z-20 flex justify-end bg-black/50" onClick={onClose}>
       <div
-        className="h-full w-full max-w-lg overflow-y-auto bg-white p-6 shadow-xl"
+        className="h-full w-full max-w-lg overflow-y-auto border-l border-border bg-surface p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">{order.supplier.name}</h2>
-            <p className="text-xs text-slate-400">{new Date(order.createdAt).toLocaleDateString()}</p>
+            <h2 className="text-xl font-bold text-text">{order.supplier.name}</h2>
+            <p className="text-xs text-text-secondary">{new Date(order.createdAt).toLocaleDateString()}</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+          <button onClick={onClose} className="text-text-secondary hover:text-text">
             Close
           </button>
         </div>
@@ -62,14 +62,14 @@ export function PurchaseOrderDetailPanel({
           </Badge>
         </div>
 
-        <ul className="mt-4 divide-y divide-slate-100">
+        <ul className="mt-4 divide-y divide-border">
           {order.items.map((item) => {
             const remaining = item.quantityOrdered - item.quantityReceived;
             return (
               <li key={item.id} className="py-3 text-sm">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium text-slate-800">{item.product.name}</p>
-                  <p className="text-slate-500">
+                  <p className="font-medium text-text">{item.product.name}</p>
+                  <p className="font-mono text-text-secondary">
                     {item.quantityReceived} / {item.quantityOrdered}
                   </p>
                 </div>
@@ -84,9 +84,9 @@ export function PurchaseOrderDetailPanel({
                       onChange={(event) =>
                         setReceiveQuantities((prev) => ({ ...prev, [item.id]: Number(event.target.value) }))
                       }
-                      className="w-28 rounded-lg border border-slate-300 px-2 py-1 text-sm outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                      className="field w-28 px-2 py-1 text-sm font-mono"
                     />
-                    <span className="text-xs text-slate-400">units arriving now</span>
+                    <span className="text-xs text-text-secondary">units arriving now</span>
                   </div>
                 )}
               </li>
@@ -95,7 +95,9 @@ export function PurchaseOrderDetailPanel({
         </ul>
 
         {errorMessage && (
-          <p className="mt-3 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{errorMessage}</p>
+          <p className="mt-3 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+            {errorMessage}
+          </p>
         )}
 
         <div className="mt-6 flex flex-col gap-2">
