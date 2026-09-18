@@ -10,11 +10,9 @@ import type { PurchaseOrder } from "@/lib/types";
 export function PurchaseOrderDetailPanel({
   order,
   isAdmin,
-  onClose,
 }: {
-  order: PurchaseOrder;
+  order: PurchaseOrder | null;
   isAdmin: boolean;
-  onClose: () => void;
 }) {
   const submitOrder = useSubmitPurchaseOrder();
   const receiveItems = useReceivePurchaseOrderItems();
@@ -22,6 +20,7 @@ export function PurchaseOrderDetailPanel({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   function handleReceive() {
+    if (!order) return;
     setErrorMessage(null);
     const items = Object.entries(receiveQuantities)
       .filter(([, qty]) => qty > 0)
@@ -40,78 +39,83 @@ export function PurchaseOrderDetailPanel({
     );
   }
 
+  if (!order) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <span aria-hidden className="flex h-6 items-end gap-[3px]">
+          <span className="h-full w-[2px] bg-border" />
+          <span className="h-2/3 w-[2px] bg-border" />
+          <span className="h-full w-[3px] bg-border" />
+          <span className="h-1/3 w-[2px] bg-border" />
+          <span className="h-full w-[2px] bg-border" />
+        </span>
+        <p className="text-sm text-text-secondary">Select a purchase order to view its line items and status.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset-0 z-20 flex justify-end bg-black/50" onClick={onClose}>
-      <div
-        className="h-full w-full max-w-lg overflow-y-auto border-l border-border bg-surface p-6"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-text">{order.supplier.name}</h2>
-            <p className="text-xs text-text-secondary">{new Date(order.createdAt).toLocaleDateString()}</p>
-          </div>
-          <button onClick={onClose} className="text-text-secondary hover:text-text">
-            Close
-          </button>
-        </div>
+    <div className="h-full overflow-y-auto p-6">
+      <div>
+        <h2 className="text-xl font-bold text-text">{order.supplier.name}</h2>
+        <p className="text-xs text-text-secondary">{new Date(order.createdAt).toLocaleDateString()}</p>
+      </div>
 
-        <div className="mt-3">
-          <Badge tone={order.status === "RECEIVED" ? "success" : order.status === "DRAFT" ? "neutral" : "warning"}>
-            {order.status}
-          </Badge>
-        </div>
+      <div className="mt-3">
+        <Badge tone={order.status === "RECEIVED" ? "success" : order.status === "DRAFT" ? "neutral" : "warning"}>
+          {order.status}
+        </Badge>
+      </div>
 
-        <ul className="mt-4 divide-y divide-border">
-          {order.items.map((item) => {
-            const remaining = item.quantityOrdered - item.quantityReceived;
-            return (
-              <li key={item.id} className="py-3 text-sm">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium text-text">{item.product.name}</p>
-                  <p className="font-mono text-text-secondary">
-                    {item.quantityReceived} / {item.quantityOrdered}
-                  </p>
+      <ul className="mt-4 divide-y divide-border">
+        {order.items.map((item) => {
+          const remaining = item.quantityOrdered - item.quantityReceived;
+          return (
+            <li key={item.id} className="py-3 text-sm">
+              <div className="flex items-center justify-between">
+                <p className="font-medium text-text">{item.product.name}</p>
+                <p className="font-mono text-text-secondary">
+                  {item.quantityReceived} / {item.quantityOrdered}
+                </p>
+              </div>
+              {order.status === "SUBMITTED" && remaining > 0 && (
+                <div className="mt-2 flex items-center gap-2">
+                  <input
+                    type="number"
+                    min={0}
+                    max={remaining}
+                    placeholder={`up to ${remaining}`}
+                    value={receiveQuantities[item.id] ?? ""}
+                    onChange={(event) =>
+                      setReceiveQuantities((prev) => ({ ...prev, [item.id]: Number(event.target.value) }))
+                    }
+                    className="field w-28 px-2 py-1 text-sm font-mono"
+                  />
+                  <span className="text-xs text-text-secondary">units arriving now</span>
                 </div>
-                {order.status === "SUBMITTED" && remaining > 0 && (
-                  <div className="mt-2 flex items-center gap-2">
-                    <input
-                      type="number"
-                      min={0}
-                      max={remaining}
-                      placeholder={`up to ${remaining}`}
-                      value={receiveQuantities[item.id] ?? ""}
-                      onChange={(event) =>
-                        setReceiveQuantities((prev) => ({ ...prev, [item.id]: Number(event.target.value) }))
-                      }
-                      className="field w-28 px-2 py-1 text-sm font-mono"
-                    />
-                    <span className="text-xs text-text-secondary">units arriving now</span>
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
 
-        {errorMessage && (
-          <p className="mt-3 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
-            {errorMessage}
-          </p>
+      {errorMessage && (
+        <p className="mt-3 rounded-md border border-danger/30 bg-danger-soft px-3 py-2 text-sm text-danger">
+          {errorMessage}
+        </p>
+      )}
+
+      <div className="mt-6 flex flex-col gap-2">
+        {order.status === "DRAFT" && isAdmin && (
+          <Button onClick={() => submitOrder.mutate(order.id)} disabled={submitOrder.isPending}>
+            {submitOrder.isPending ? "Submitting..." : "Submit to supplier"}
+          </Button>
         )}
-
-        <div className="mt-6 flex flex-col gap-2">
-          {order.status === "DRAFT" && isAdmin && (
-            <Button onClick={() => submitOrder.mutate(order.id)} disabled={submitOrder.isPending}>
-              {submitOrder.isPending ? "Submitting..." : "Submit to supplier"}
-            </Button>
-          )}
-          {order.status === "SUBMITTED" && (
-            <Button onClick={handleReceive} disabled={receiveItems.isPending}>
-              {receiveItems.isPending ? "Recording..." : "Receive shipment"}
-            </Button>
-          )}
-        </div>
+        {order.status === "SUBMITTED" && (
+          <Button onClick={handleReceive} disabled={receiveItems.isPending}>
+            {receiveItems.isPending ? "Recording..." : "Receive shipment"}
+          </Button>
+        )}
       </div>
     </div>
   );

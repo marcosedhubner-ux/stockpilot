@@ -1,52 +1,53 @@
+import clsx from "clsx";
 import { Badge } from "@/components/ui/Badge";
 import type { Product } from "@/lib/types";
 
 export function ProductTable({
   products,
+  selectedId,
   onSelect,
 }: {
   products: Product[];
+  selectedId?: string | null;
   onSelect: (product: Product) => void;
 }) {
   return (
-    <div className="overflow-x-auto rounded-md border border-border bg-surface">
-      <table className="min-w-full divide-y divide-border text-sm">
-        <thead>
-          <tr className="text-left text-xs font-semibold uppercase tracking-wide text-text-secondary">
-            <th className="px-4 py-3">SKU</th>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Category</th>
-            <th className="px-4 py-3">On hand</th>
-            <th className="px-4 py-3">Unit cost</th>
-            <th className="px-4 py-3">Supplier</th>
-            <th className="px-4 py-3" />
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border">
-          {products.map((product) => (
-            <tr
-              key={product.id}
+    <ul className="divide-y divide-border">
+      {products.map((product) => {
+        const isSelected = product.id === selectedId;
+        return (
+          <li key={product.id}>
+            <button
+              type="button"
               onClick={() => onSelect(product)}
-              className="cursor-pointer hover:bg-white/[0.03]"
+              aria-current={isSelected}
+              className={clsx(
+                "flex w-full items-stretch gap-3 px-3 py-3 text-left transition-colors",
+                isSelected ? "bg-accent-soft" : "hover:bg-white/[0.03]"
+              )}
             >
-              <td className="px-4 py-3 font-mono text-xs text-text-secondary">{product.sku}</td>
-              <td className="px-4 py-3 font-medium text-text">{product.name}</td>
-              <td className="px-4 py-3 text-text-secondary">{product.category}</td>
-              <td className="px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-semibold text-text">{product.quantityOnHand}</span>
+              <span
+                aria-hidden
+                className={clsx("w-[3px] shrink-0 self-stretch rounded-full", isSelected ? "bg-accent" : "bg-transparent")}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="truncate font-medium text-text">{product.name}</span>
+                  <span className="shrink-0 font-mono font-semibold text-text">{product.quantityOnHand}</span>
+                </div>
+                <div className="mt-1 flex items-center justify-between gap-2">
+                  <span className="truncate font-mono text-xs text-text-secondary">{product.sku}</span>
                   {product.isBelowReorderPoint && <Badge tone="danger">Low stock</Badge>}
                 </div>
-              </td>
-              <td className="px-4 py-3 font-mono text-text-secondary">
-                ${Number(product.unitCost).toFixed(2)}
-              </td>
-              <td className="px-4 py-3 text-text-secondary">{product.supplier?.name ?? "—"}</td>
-              <td className="px-4 py-3 text-right text-xs font-medium text-accent">Manage</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                <p className="mt-1.5 truncate text-xs text-text-secondary">
+                  {product.category} &middot; ${Number(product.unitCost).toFixed(2)} &middot;{" "}
+                  {product.supplier?.name ?? "No supplier"}
+                </p>
+              </div>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
