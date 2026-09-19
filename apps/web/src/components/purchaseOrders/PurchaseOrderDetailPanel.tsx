@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
+import { BarcodeGlyph } from "@/components/ui/BarcodeGlyph";
 import { Button } from "@/components/ui/Button";
 import { useReceivePurchaseOrderItems, useSubmitPurchaseOrder } from "@/hooks/usePurchaseOrders";
 import { ApiError } from "@/lib/apiClient";
@@ -42,20 +43,14 @@ export function PurchaseOrderDetailPanel({
   if (!order) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
-        <span aria-hidden className="flex h-6 items-end gap-[3px]">
-          <span className="h-full w-[2px] bg-border" />
-          <span className="h-2/3 w-[2px] bg-border" />
-          <span className="h-full w-[3px] bg-border" />
-          <span className="h-1/3 w-[2px] bg-border" />
-          <span className="h-full w-[2px] bg-border" />
-        </span>
+        <BarcodeGlyph className="h-7 w-auto text-accent/35" />
         <p className="text-sm text-text-secondary">Select a purchase order to view its line items and status.</p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-y-auto p-6">
+    <div key={order.id} className="h-full overflow-y-auto p-6 animate-panel-in">
       <div>
         <h2 className="text-xl font-bold text-text">{order.supplier.name}</h2>
         <p className="text-xs text-text-secondary">{new Date(order.createdAt).toLocaleDateString()}</p>

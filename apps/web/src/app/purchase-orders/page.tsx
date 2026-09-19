@@ -52,15 +52,15 @@ function PurchaseOrdersView() {
                         onClick={() => setSelectedId(order.id)}
                         aria-current={isSelected}
                         className={clsx(
-                          "flex w-full items-stretch gap-3 px-3 py-3 text-left transition-colors",
-                          isSelected ? "bg-accent-soft" : "hover:bg-white/[0.03]"
+                          "group flex w-full items-stretch gap-3 px-3 py-3 text-left transition-colors duration-150 ease-out",
+                          isSelected ? "bg-accent-soft" : "hover:bg-accent-soft/40"
                         )}
                       >
                         <span
                           aria-hidden
                           className={clsx(
-                            "w-[3px] shrink-0 self-stretch rounded-full",
-                            isSelected ? "bg-accent" : "bg-transparent"
+                            "w-[3px] shrink-0 self-stretch rounded-full transition-colors duration-150 ease-out",
+                            isSelected ? "bg-accent" : "bg-transparent group-hover:bg-accent/50"
                           )}
                         />
                         <div className="min-w-0 flex-1">

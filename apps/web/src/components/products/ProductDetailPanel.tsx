@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/Badge";
+import { BarcodeGlyph } from "@/components/ui/BarcodeGlyph";
 import { useProductMovements } from "@/hooks/useProducts";
 import { RecordMovementForm } from "./RecordMovementForm";
 import type { Product } from "@/lib/types";
@@ -24,20 +25,18 @@ export function ProductDetailPanel({
   if (!product) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
-        <span aria-hidden className="flex h-6 items-end gap-[3px]">
-          <span className="h-full w-[2px] bg-border" />
-          <span className="h-2/3 w-[2px] bg-border" />
-          <span className="h-full w-[3px] bg-border" />
-          <span className="h-1/3 w-[2px] bg-border" />
-          <span className="h-full w-[2px] bg-border" />
-        </span>
+        <BarcodeGlyph className="h-7 w-auto text-accent/35" />
         <p className="text-sm text-text-secondary">Select a product to view its detail and movement history.</p>
       </div>
     );
   }
 
+  const isCritical =
+    product.isBelowReorderPoint &&
+    (product.quantityOnHand <= 0 || product.quantityOnHand <= product.reorderPoint * 0.5);
+
   return (
-    <div className="h-full overflow-y-auto p-6">
+    <div key={product.id} className="h-full overflow-y-auto p-6 animate-panel-in">
       <div>
         <h2 className="text-xl font-bold text-text">{product.name}</h2>
         <p className="font-mono text-xs text-text-secondary">{product.sku}</p>
@@ -48,7 +47,11 @@ export function ProductDetailPanel({
           <p className="text-xs text-text-secondary">On hand</p>
           <p className="font-mono text-2xl font-bold text-text">{product.quantityOnHand}</p>
         </div>
-        {product.isBelowReorderPoint && <Badge tone="danger">Below reorder point</Badge>}
+        {product.isBelowReorderPoint && (
+          <Badge tone="danger" pulse={isCritical}>
+            Below reorder point
+          </Badge>
+        )}
       </div>
 
       <div className="mt-6">

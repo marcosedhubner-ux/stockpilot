@@ -11,12 +11,22 @@ const toneStyles: Record<BadgeTone, string> = {
   info: "bg-info-soft text-info border-info/30",
 };
 
-export function Badge({ tone = "neutral", children }: { tone?: BadgeTone; children: ReactNode }) {
+export function Badge({
+  tone = "neutral",
+  pulse = false,
+  children,
+}: {
+  tone?: BadgeTone;
+  /** Brief attention pulse — reserve for genuinely critical states (e.g. out of stock), not routine warnings. */
+  pulse?: boolean;
+  children: ReactNode;
+}) {
   return (
     <span
       className={clsx(
         "inline-flex items-center rounded-md border px-2.5 py-0.5 font-mono text-xs font-medium",
-        toneStyles[tone]
+        toneStyles[tone],
+        pulse && "animate-badge-pulse"
       )}
     >
       {children}

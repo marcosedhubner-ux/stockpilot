@@ -15,6 +15,9 @@ export function ProductTable({
     <ul className="divide-y divide-border">
       {products.map((product) => {
         const isSelected = product.id === selectedId;
+        const isCritical =
+          product.isBelowReorderPoint &&
+          (product.quantityOnHand <= 0 || product.quantityOnHand <= product.reorderPoint * 0.5);
         return (
           <li key={product.id}>
             <button
@@ -22,13 +25,16 @@ export function ProductTable({
               onClick={() => onSelect(product)}
               aria-current={isSelected}
               className={clsx(
-                "flex w-full items-stretch gap-3 px-3 py-3 text-left transition-colors",
-                isSelected ? "bg-accent-soft" : "hover:bg-white/[0.03]"
+                "group flex w-full items-stretch gap-3 px-3 py-3 text-left transition-colors duration-150 ease-out",
+                isSelected ? "bg-accent-soft" : "hover:bg-accent-soft/40"
               )}
             >
               <span
                 aria-hidden
-                className={clsx("w-[3px] shrink-0 self-stretch rounded-full", isSelected ? "bg-accent" : "bg-transparent")}
+                className={clsx(
+                  "w-[3px] shrink-0 self-stretch rounded-full transition-colors duration-150 ease-out",
+                  isSelected ? "bg-accent" : "bg-transparent group-hover:bg-accent/50"
+                )}
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
@@ -37,7 +43,11 @@ export function ProductTable({
                 </div>
                 <div className="mt-1 flex items-center justify-between gap-2">
                   <span className="truncate font-mono text-xs text-text-secondary">{product.sku}</span>
-                  {product.isBelowReorderPoint && <Badge tone="danger">Low stock</Badge>}
+                  {product.isBelowReorderPoint && (
+                    <Badge tone="danger" pulse={isCritical}>
+                      Low stock
+                    </Badge>
+                  )}
                 </div>
                 <p className="mt-1.5 truncate text-xs text-text-secondary">
                   {product.category} &middot; ${Number(product.unitCost).toFixed(2)} &middot;{" "}
